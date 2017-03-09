@@ -1,9 +1,6 @@
 extends layout
 
 block content
-  h1= userId
-  p Welcome to #{title}
-
   script.
     var auth0 = new Auth0({
       domain: '#{env.AUTH0_DOMAIN}',
