@@ -6,7 +6,9 @@ module.exports = function requireRole(role) {
     if (roles.indexOf(role) != -1) {
       next();
     } else {
+      req.session['requiredRole'] = role;
+      req.session['page'] = req.url;
       res.redirect('/unauthorized');
     }
   }
-}
+};

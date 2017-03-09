@@ -27,20 +27,30 @@ router.get('/logout', function(req, res){
 
 router.get('/callback',
   passport.authenticate('auth0', {
-    failureRedirect: '/url-if-something-fails',
+    failureRedirect: '/url-if-something-fails'
   }),
   function(req, res) {
     res.redirect(req.session.returnTo || '/user');
   });
 
 router.get('/admin',
+  ensureLoggedIn,
   requireRole('ISG_ADMIN'),
   function(req, res) {
     res.render('admin');
   });
 
 router.get('/unauthorized', function(req, res) {
-  res.render('unauthorized', {env: env});
+    var session = req.session;
+    res.render('unauthorized', {env: env,
+        requiredRole: remove(session, 'requiredRole'),
+        page: remove(session, 'page')});
+
+    function remove(session, key) {
+        var result = session[key];
+        delete session[key];
+        return result;
+    }
 });
 
 
