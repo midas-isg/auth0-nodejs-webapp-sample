@@ -8,15 +8,17 @@ var url = require('url');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var user = req.session.passport && req.session.passport.user;
-  var userId = user && user.profile && user.profile.id;
-  res.render('index', { title: 'Express', env: env, userId: userId });
+  res.render('index', { title: 'Express', env: env, userId: getUserId() });
+
+  function getUserId() {
+    var user = req.session.passport && req.session.passport.user;
+    return user && user.profile && user.profile.id;
+  }
 });
 
-router.get('/login',
-  function(req, res){
-      res.redirect('/');
-  });
+router.get('/login', function(req, res){
+  res.redirect('/');
+});
 
 router.get('/logout', function(req, res){
   req.logout();
@@ -24,19 +26,18 @@ router.get('/logout', function(req, res){
     encodeURIComponent(baseUrl(req)) + '&title=' + env.TITLE + '&message=Successfully logged out.'
   );
 
-    function baseUrl(req) {
-        return url.format({
-            protocol: req.protocol,
-            host: req.get('host')
-        });
-    }
+  function baseUrl(req) {
+    return url.format({
+      protocol: req.protocol,
+      host: req.get('host')
+    });
+  }
 });
 
 router.get('/callback',
   passport.authenticate('auth0', {
     failureRedirect: '/url-if-something-fails'
-  }),
-  function(req, res) {
+  }), function(req, res) {
     res.redirect(req.session.returnTo || '/user');
   });
 
@@ -48,16 +49,17 @@ router.get('/admin',
   });
 
 router.get('/unauthorized', function(req, res) {
-    var session = req.session;
-    res.render('unauthorized', {env: env,
-        requiredRole: remove(session, 'requiredRole'),
-        page: remove(session, 'page')});
+  var session = req.session;
+  res.render('unauthorized', {env: env,
+      requiredRole: remove(session, 'requiredRole'),
+      page: remove(session, 'page')
+  });
 
-    function remove(session, key) {
-        var result = session[key];
-        delete session[key];
-        return result;
-    }
+  function remove(session, key) {
+    var result = session[key];
+    delete session[key];
+    return result;
+  }
 });
 
 

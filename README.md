@@ -1,8 +1,10 @@
-# 07-Authorization
+# MIDAS SSO Example using Node.js
 
-## Set the User's Role
+This example of a regular web application using Node.js, Express.js, midas-sso and Auth0.
 
-This sample shows how to perform an authorization check for the logged in user. You can add roles to the user's `app_metadata` in the [Auth0 dashboard](https://manage.auth0.com/#/users). This sample checks for a role of `admin` in the user's `app_metadata` and, if that role exists, allows the user to access the `/admin` route.
+## Hook up to midass-sso
+
+This example shows how to hook up to midass-sso and perform an authorization check for the logged in user. After user signs up to midas-sso via MIDAS Accounts, the user will automatically get `ISG_USER` role so that the user can access `/user`. This example checks for a role of `ISG_ADMIN` which user usually won't get and, if the user tries to access the `/admin` route, redirects the user to the `/unauthorized`.
 
 ## Running the Sample
 
@@ -12,7 +14,7 @@ Install the dependencies.
 npm install
 ```
 
-Rename `.env.example` to `.env` and replace the values for `AUTH0_CLIENT_ID`, `AUTH0_DOMAIN`, and `AUTH0_CLIENT_SECRET` with your Auth0 credentials. If you don't yet have an Auth0 account, [sign up](https://auth0.com/signuo) for free.
+Rename `.env.example` to `.env` and replace the values for `AUTH0_CLIENT_ID`, `AUTH0_DOMAIN`, and `AUTH0_CLIENT_SECRET` with your Auth0 credentials. If you don't yet have an MIDAS SSO account, [sign up](https://docs.google.com/forms/d/e/1FAIpQLScz9GcXNQ8bBLiQ9WQMyXdXdGCcb1iIyd8phdXz4POPOL2LCQ/viewform?c=0&w=1) for free.
 
 ```bash
 # copy configuration and replace with your own
@@ -27,30 +29,5 @@ npm start
 
 The app will be served at `localhost:3000`.
 
-## What is Auth0?
-
-Auth0 helps you to:
-
-* Add authentication with [multiple authentication sources](https://docs.auth0.com/identityproviders), either social like **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter, Box, Salesforce, amont others**, or enterprise identity systems like **Windows Azure AD, Google Apps, Active Directory, ADFS or any SAML Identity Provider**.
-* Add authentication through more traditional **[username/password databases](https://docs.auth0.com/mysql-connection-tutorial)**.
-* Add support for **[linking different user accounts](https://docs.auth0.com/link-accounts)** with the same user.
-* Support for generating signed [Json Web Tokens](https://docs.auth0.com/jwt) to call your APIs and **flow the user identity** securely.
-* Analytics of how, when and where users are logging in.
-* Pull data from other sources and add it to the user profile, through [JavaScript rules](https://docs.auth0.com/rules).
-
-## Create a free account in Auth0
-
-1. Go to [Auth0](https://auth0.com) and click Sign Up.
-2. Use Google, GitHub or Microsoft Account to login.
-
-## Issue Reporting
-
-If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
-
-## Author
-
-[Auth0](auth0.com)
-
-## License
-
-This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
+## Credit
+This was forked from auth0-samples/auth0-nodejs-webapp-sample
