@@ -1,19 +1,40 @@
 extends layout
 
 block content
-  h1= title
+  h1= userId
   p Welcome to #{title}
-  br
-  button(onclick="signin()") Login
 
   script.
-    var lock = new Auth0Lock('#{env.AUTH0_CLIENT_ID}', '#{env.AUTH0_DOMAIN}', { auth: {
-          redirectUrl: '#{env.AUTH0_CALLBACK_URL}'
-        , responseType: 'code'
-        , params: {
-          scope: 'openid name email picture'
-        }
-      }});
-    function signin() {
-      lock.show();
-    }
+    var auth0 = new Auth0({
+      domain: '#{env.AUTH0_DOMAIN}',
+      clientID: '#{env.AUTH0_CLIENT_ID}',
+      callbackURL: '#{env.AUTH0_CALLBACK_URL}'
+    });
+
+    auth0.getSSOData(function (err, data) {
+      var loggedInUserId = '#{userId}';
+      if (data && data.sso === true) {
+         console.log('SSO: an Auth0 SSO session already exists');
+         if (loggedInUserId !== data.lastUsedUserID) {
+            console.log("SSO Session but NOT locally authenticated ");
+            auth0.login({
+               scope: 'openid name email picture'
+               // state: '${state}'
+            }, function (err) {
+               console.error('Error logging in: ' + err);
+            });
+         } else {
+            console.log("SSO Session and locally authenticated ");
+            window.location = '/';
+         }
+      } else if (loggedInUserId){
+         console.log("NO SSO Session but locally authenticated -> log them out locally");
+         window.location = '/logout';
+      } else {
+         console.log("NO SSO Session and NOT locally authenticated ");
+         var title = "#{env.TITLE}";
+         var message = "Please login to use the services";
+         window.location = '#{env.MIDAS_ACCOUNTS_URL}/sso?returnToUrl='
+               + encodeURIComponent(window.location) + '&title=' + title + '&message=' + message;
+      }
+    });

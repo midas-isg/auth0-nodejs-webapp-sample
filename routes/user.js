@@ -1,6 +1,7 @@
 var express = require('express');
 var passport = require('passport');
 var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
+var requireRole = require('../requireRole');
 var router = express.Router();
 
 var env = {
@@ -10,7 +11,10 @@ var env = {
 };
 
 /* GET user profile. */
-router.get('/', ensureLoggedIn, function(req, res, next) {
+router.get('/',
+  ensureLoggedIn,
+  requireRole('ISG_USER'),
+  function(req, res, next) {
   res.render('user', {
     user: req.user,
     env: env
