@@ -34,7 +34,7 @@ router.get('/callback',
   });
 
 router.get('/admin',
-  requireRole('admin'),
+  requireRole('ISG_ADMIN'),
   function(req, res) {
     res.render('admin');
   });
