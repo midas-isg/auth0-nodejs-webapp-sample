@@ -22,7 +22,7 @@ block content
             });
          } else {
             console.log("SSO Session and locally authenticated ");
-            window.location = '/';
+            window.location = '/user';
          }
       } else if (loggedInUserId){
          console.log("NO SSO Session but locally authenticated -> log them out locally");
