@@ -1,6 +1,6 @@
 # MIDAS SSO Example using Node.js
 
-This example of a regular web application using Node.js, Express.js, midas-sso and Auth0.
+This is an example of a regular web application using Node.js, Express.js, midas-sso and Auth0.
 
 ## Hook up to midass-sso
 
@@ -27,7 +27,7 @@ Run the app.
 npm start
 ```
 
-The app will be served at `localhost:3000`.
+The app will be served at http://localhost:3000.
 
 ## Credit
 This was forked from auth0-samples/auth0-nodejs-webapp-sample and kept only 07-Authorization.
